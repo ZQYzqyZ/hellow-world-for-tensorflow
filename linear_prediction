@@ -1,24 +1,25 @@
-import tensorflow as tf
+import tensorflow as tf 
 import numpy as np
-#creat data
+
+#初始化数据
 x_data=np.random.rand(100).astype(np.float32)
 y_data=x_data*0.1+0.3
 
-###creat tensorflow structure start###
-Weights=tf.Variable(tf.random_uniform([1],-1.0,1.0))
-biases=tf.Variable(tf.zeros([1]))
+###声明变量
+Weights=tf.Variable(tf.random_uniform([1],-1.0,1.0)) #权重服从均值高斯分布
+biases=tf.Variable(tf.zeros([1])) #偏差初始化
 
-y=Weights*x_data+biases
+y=Weights*x_data+biases#定义y
 
-loss=tf.reduce_mean(tf.square(y-y_data))
-optimizer=tf.train.GradientDescentOptimizer(0.5)
+loss=tf.reduce_mean(tf.square(y-y_data))#定义损失函数
+optimizer=tf.train.GradientDescentOptimizer(0.5)#采用梯度下降算法进行优化
 train=optimizer.minimize(loss)
 
-init=tf.initialize_all_variables()
+init=tf.initialize_all_variables()#初始化所有变量
 ###creat tensorflow structure end###
-sess=tf.Session()
+sess=tf.Session()#声明会话
 sess.run(init)
-for step in range(501):
+for step in range(501):#训练500轮
     sess.run(train)
-    if step%20==0:
-        print(step,sess.run(Weights),sess.run(biases))
+    if step%20==0:#每20轮输出一次
+        print(step,sess.run(Weights),sess.run(biases))#输出轮数、权重、偏差
